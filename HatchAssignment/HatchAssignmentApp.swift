@@ -8,6 +8,7 @@ struct HatchAssignmentApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .colorScheme(.light)
         }
     }
 }
