@@ -8,7 +8,6 @@ struct SheetLikeEffectView<Content: View, Overlay: View>: View {
 
     var trigger: Bool
     var topPadding: CGFloat?
-//    @Binding var offset: CGFloat
 
     @ViewBuilder var content: () -> Content
     @ViewBuilder var overlay: () -> Overlay
@@ -22,18 +21,12 @@ struct SheetLikeEffectView<Content: View, Overlay: View>: View {
                 content()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .sheetBackgroundEffect(trigger: trigger)
-//                    .background {
-//                        KeyboardAttachedView(offset: $offset)
-//                            .frame(height: 0)
-//                            .frame(maxHeight: .infinity, alignment: .bottom)
-//                    }
 
                 overlay()
                     .padding(
                         .top,
                         trigger ? (topPadding ?? safeAreaInsets.top) : 0
                     )
-//                    .offset(y: offset)
             }
             .ignoresSafeArea(.all)
         }
