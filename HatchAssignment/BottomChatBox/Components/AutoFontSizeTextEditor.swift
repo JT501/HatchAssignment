@@ -4,7 +4,7 @@
 import Foundation
 import SwiftUI
 
-struct TextInputView: View {
+struct AutoFontSizeTextEditor: View {
     static var shrinkThreshold: CGFloat = 2.0 / 3.0
     static var growThreshold: CGFloat = 0.56
 
@@ -41,15 +41,20 @@ struct TextInputView: View {
     }
 
     @Binding var text: String
+    var placeHolder: String = "Start Typing..."
     @State var fontSize = FontSize.default
+    var overrideFontSize = false
     @State var textEditorHeight = CGFloat.zero
     @State var textViewHeight = CGFloat.zero
     @FocusState var isTextFieldFocused
+    private var showPlaceHolder: Bool {
+        !isTextFieldFocused && text.isEmpty
+    }
 
     var body: some View {
         ZStack(alignment: .topLeading) {
             TextEditor(text: $text)
-                .font(.system(size: fontSize.rawValue))
+                .font(.system(size: (overrideFontSize ? FontSize.default : fontSize).rawValue))
                 .padding(EdgeInsets(top: -7.8, leading: -4.8, bottom: 0, trailing: -5))
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .focused($isTextFieldFocused)
@@ -57,28 +62,32 @@ struct TextInputView: View {
                 .autocorrectionDisabled()
                 .scrollContentBackground(.hidden)
                 .scrollDisabled(fontSize != .small)
-                .scrollDismissesKeyboard(.never)
+                .scrollDismissesKeyboard(.interactively)
                 .onGeometryChange(for: CGSize.self) { proxy in
                     proxy.size
                 } action: { newValue in
-//                    print("TextEditor:", newValue)
                     textEditorHeight = newValue.height
                 }
 
+            // Dummy Textfield for calculating the space text occupied
             Text(text)
                 .font(.system(size: fontSize.rawValue))
                 .frame(maxWidth: .infinity, alignment: .topLeading)
                 .onGeometryChange(for: CGSize.self) { proxy in
                     proxy.size
                 } action: { newValue in
-//                    print("TextView:", newValue)
                     textViewHeight = newValue.height
                 }
                 .hidden()
+
+            // Placeholder
+            PlaceholderView(placeholder: placeHolder)
+                .opacity(showPlaceHolder ? 1 : 0)
+                .allowsHitTesting(false)
         }
+        .animation(.smooth, value: showPlaceHolder)
         .task(id: heightFactor) {
             fontSize = updateFontSize(by: heightFactor, with: fontSize)
-//            print(heightFactor, fontSize)
         }
     }
 
@@ -94,7 +103,7 @@ struct TextInputView: View {
 }
 
 #Preview {
-    TextInputView(
+    AutoFontSizeTextEditor(
         text: .constant(
             """
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut quam bibendum, blandit odio a, luctus sapien. Nullam sodales urna in est congue eleifend. Curabitur mattis enim in purus bibendum, et dapibus libero laoreet. Donec scelerisque facilisis elit at convallis. Integer congue sollicitudin ultrices. Vivamus a mattis nibh. Integer interdum sagittis mattis. Mauris dictum eros vel tincidunt fringilla. Proin urna erat, lobortis vitae enim a, fermentum gravida nulla. Ut congue lectus est, a viverra arcu tempor non. Aliquam molestie felis mi, sed aliquam metus euismod vel. Pellentesque lobortis sagittis ipsum lobortis vestibulum.
