@@ -5,144 +5,72 @@ import Foundation
 import SwiftUI
 
 struct ContentView: View {
-    @State var text = ""
+    @Environment(\.safeAreaInsets) var safeAreaInsets
+
     @State var textChips: [TextChip] = .mock
-    @State var expandButtonOpacity = 0.0
-    @State var isEditing = false
-
-    @FocusState var isTextFieldFocused: Bool
-    @GestureState var dragState = DragState.inactive
-
-    enum DragState {
-        case inactive
-        case dragging(translation: CGSize)
-
-        var translation: CGSize {
-            switch self {
-                case .inactive:
-                    .zero
-                case let .dragging(translation: translation):
-                    translation
-            }
-        }
-
-        var isDragging: Bool {
-            switch self {
-                case .inactive:
-                    false
-                case .dragging:
-                    true
-            }
-        }
-    }
+    @State private var isChatBoxExpanded: Bool = false
+    @State private var showTextChips: Bool = true
+    @State private var bottomChatBoxViewModel = BottomChatBoxViewModel()
+    @State private var offset: CGFloat = 0
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Color.yellow
-                .ignoresSafeArea()
-
-            ScrollView {
+        SheetLikeEffectView(
+            trigger: isChatBoxExpanded,
+            topPadding: safeAreaInsets.top + abs(offset)
+        ) {
+            ZStack {
+                Color.bgLightGray
+                    .ignoresSafeArea()
+                
                 VStack {
-                    Image(systemName: "globe")
-                        .imageScale(.large)
-                        .foregroundStyle(.tint)
-                    Text("Hello, world!")
+                    TopBar()
+                        .padding(.top, safeAreaInsets.top)
+                    
+                    ScrollView {
+                        VStack {
+                            Image(systemName: "globe")
+                                .imageScale(.large)
+                                .foregroundStyle(.tint)
+                            Text("Hello, world!")
+                        }
+                        .padding()
+                    }
+                    .contentMargins(.bottom, -offset)
+                    .scrollDismissesKeyboard(.interactively)
                 }
-                .padding()
             }
-            .scrollBounceBehavior(.basedOnSize)
-            .scrollDismissesKeyboard(.automatic)
-
+            .background {
+                KeyboardAttachedView(offset: $offset)
+                    .frame(height: 0)
+                    .frame(maxHeight: .infinity, alignment: .bottom)
+            }
+        } overlay: {
             VStack {
-                TextChipScrollView(textChips: textChips)
-
-                VStack {
-                    HStack(alignment: .top) {
-                        Group {
-                            if !isEditing && text.isEmpty {
-                                Text("Start Typing...")
-                                    .font(.system(size: 18))
-                                    .foregroundStyle(.gray)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .onTapGesture {
-                                        isTextFieldFocused = true
-                                        withAnimation(.easeInOut(duration: 0.5)) {
-                                            isEditing = true
-                                        }
-                                    }
-                                    .transition(.opacity)
-                            } else {
-                                TextInputView(
-                                    text: $text,
-                                    isTextFieldFocused: _isTextFieldFocused
-                                )
-                                .onChange(of: text) { _, newValue in
-                                    withAnimation {
-                                        expandButtonOpacity = newValue.isEmpty ? 0 : 1
-                                    }
-                                }
-                                .transition(.opacity)
-                            }
-                        }
-                        .frame(height: 90, alignment: .top)
-
-                        Button {
-                            isTextFieldFocused = false
-                        } label: {
-                            Image(systemName: "arrow.up.backward.and.arrow.down.forward")
-                                .imageScale(.medium)
-                                .padding(.horizontal, 8)
-                                .tint(.black)
-                        }
-                        .opacity(expandButtonOpacity)
-                        .disabled(text.isEmpty)
+                if showTextChips {
+                    TextChipScrollView(textChips: textChips) {
+                        print("Selected Chip:", $0)
                     }
-
-                    HStack {
-                        Button {}
-                            label: {
-                                Image(systemName: "photo.circle")
-                                    .font(.system(size: 35))
-                            }
-
-                        Spacer()
-
-                        Button {}
-                            label: {
-                                Image(systemName: "paperplane.circle.fill")
-                                    .font(.system(size: 35))
-                            }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 4)
+                    .transition(
+                        .asymmetric(
+                            insertion: .move(edge: .top),
+                            removal: .opacity
+                        )
+                    )
                 }
-                .padding(.vertical, 20)
-                .padding(.horizontal)
-                .background(.white)
-                .clipShape(.rect(topLeadingRadius: 15, topTrailingRadius: 15))
-                .shadow(radius: 3, x: 0, y: -5)
+
+                BottomChatBoxView(
+                    viewModel: .init()
+                ) { isExpanded in
+                    isChatBoxExpanded = isExpanded
+
+                    withAnimation(.bouncy(extraBounce: 0.2)) {
+                        showTextChips = !isExpanded
+                    }
+                }
+                .animation(nil, value: showTextChips)
             }
+            .offset(y: offset)
         }
-        .ignoresSafeArea(.container)
-        .gesture(
-            DragGesture(coordinateSpace: .global)
-                .updating($dragState) { drag, state, translation in
-                    state = .dragging(translation: drag.translation)
-
-                    if drag.translation.height > 50 {
-                        isTextFieldFocused = false
-                        withAnimation(.easeInOut(duration: 0.5)) {
-                            isEditing = false
-                        }
-                    }
-                }
-//                .onEnded { drag in
-//                    if drag.translation.height > 20 {
-//                        isTextFieldFocused = false
-//                        isEditing = false
-//                    }
-//                }
-        )
     }
 }
 
