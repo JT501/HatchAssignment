@@ -31,7 +31,7 @@ struct ObserveKeyboard: ViewModifier {
     }
 }
 
-extension View {
+public extension View {
     func observeKeyboard(_ isKeyboardShow: Binding<Bool>) -> some View {
         modifier(ObserveKeyboard(isKeyboardShow: isKeyboardShow))
     }

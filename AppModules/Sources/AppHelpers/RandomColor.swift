@@ -3,7 +3,7 @@
 
 import SwiftUI
 
-extension Color {
+public extension Color {
     static var random: Color {
         return Color(
             red: .random(in: 0...1),

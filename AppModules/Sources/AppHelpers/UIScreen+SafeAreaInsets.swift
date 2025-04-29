@@ -3,7 +3,7 @@
 
 import SwiftUI
 
-extension UIApplication {
+public extension UIApplication {
     var keyWindow: UIWindow? {
         connectedScenes
             .compactMap {
@@ -18,19 +18,20 @@ extension UIApplication {
     }
 }
 
-struct SafeAreaInsetsKey: EnvironmentKey {
-    static var defaultValue: EdgeInsets {
+@MainActor
+public struct SafeAreaInsetsKey: @preconcurrency EnvironmentKey {
+    public static var defaultValue: EdgeInsets {
         UIApplication.shared.keyWindow?.safeAreaInsets.swiftUiInsets ?? EdgeInsets()
     }
 }
 
-extension EnvironmentValues {
+public extension EnvironmentValues {
     var safeAreaInsets: EdgeInsets {
         self[SafeAreaInsetsKey.self]
     }
 }
 
-extension UIEdgeInsets {
+public extension UIEdgeInsets {
     var swiftUiInsets: EdgeInsets {
         EdgeInsets(top: top, leading: left, bottom: bottom, trailing: right)
     }
