@@ -9,12 +9,18 @@ let targets: [Target] = [
         dependencies: [
             .appConstants,
             .appHelpers,
-            .appModels,
+            .textChipScrollView,
         ]
     ),
     .target(name: "AppConstants"),
     .target(name: "AppHelpers"),
     .target(name: "AppModels"),
+    .target(
+        name: "TextChipScrollView",
+        dependencies: [
+            .appModels,
+        ]
+    ),
 ]
 
 let package = Package(
@@ -25,6 +31,7 @@ let package = Package(
         .library("AppConstants"),
         .library("AppHelpers"),
         .library("AppModels"),
+        .library("TextChipScrollView"),
     ],
     dependencies: [
         .package(url: "https://github.com/siteline/swiftui-introspect", .upToNextMajor(from: "1.3.0")),
@@ -38,6 +45,7 @@ extension Target.Dependency {
     static var appConstants: Self { .target(name: "AppConstants") }
     static var appHelpers: Self { .target(name: "AppHelpers") }
     static var appModels: Self { .target(name: "AppModels") }
+    static var textChipScrollView: Self { .target(name: "TextChipScrollView") }
 
     // MARK: Third Party Dependencies
 

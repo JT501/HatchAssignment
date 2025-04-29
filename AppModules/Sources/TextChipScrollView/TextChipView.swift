@@ -2,15 +2,16 @@
 // Using Swift 6.0
 
 import SwiftUI
+import AppModels
 
-struct TextChipView: View {
-    @State var chip: TextChip
+public struct TextChipView: View {
+    @State public var chip: TextChip
     
-    init(chip: TextChip) {
+    public init(chip: TextChip) {
         self.chip = chip
     }
     
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading) {
             Text(chip.title)
                 .bold()

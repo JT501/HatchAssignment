@@ -2,12 +2,21 @@
 // Using Swift 6.0
 
 import SwiftUI
+import AppModels
 
-struct TextChipScrollView: View {
-    var textChips: [TextChip]
-    var onDidSelect: ((TextChip) -> Void)?
+public struct TextChipScrollView: View {
+    public var textChips: [TextChip]
+    public var onDidSelect: ((TextChip) -> Void)?
+    
+    public init(
+        textChips: [TextChip],
+        onDidSelect: ((TextChip) -> Void)? = nil
+    ) {
+        self.textChips = textChips
+        self.onDidSelect = onDidSelect
+    }
 
-    var body: some View {
+    public var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack {
                 ForEach(textChips) { textChip in
