@@ -9,10 +9,12 @@ let targets: [Target] = [
         dependencies: [
             .appConstants,
             .appHelpers,
+            .appModels,
         ]
     ),
     .target(name: "AppConstants"),
     .target(name: "AppHelpers"),
+    .target(name: "AppModels"),
 ]
 
 let package = Package(
@@ -22,6 +24,7 @@ let package = Package(
         .library("AppModules"),
         .library("AppConstants"),
         .library("AppHelpers"),
+        .library("AppModels"),
     ],
     dependencies: [
         .package(url: "https://github.com/siteline/swiftui-introspect", .upToNextMajor(from: "1.3.0")),
@@ -34,6 +37,7 @@ extension Target.Dependency {
 
     static var appConstants: Self { .target(name: "AppConstants") }
     static var appHelpers: Self { .target(name: "AppHelpers") }
+    static var appModels: Self { .target(name: "AppModels") }
 
     // MARK: Third Party Dependencies
 
