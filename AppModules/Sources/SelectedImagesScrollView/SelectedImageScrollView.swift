@@ -3,10 +3,14 @@
 
 import SwiftUI
 
-struct SelectedImageScrollView: View {
+public struct SelectedImageScrollView: View {
     @Binding var selectedImage: [Color]
 
-    var body: some View {
+    public init(selectedImage: Binding<[Color]>) {
+        _selectedImage = selectedImage
+    }
+
+    public var body: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 4) {
                 ForEach(selectedImage, id: \.self) { image in
