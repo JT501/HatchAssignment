@@ -1,28 +1,41 @@
 // Created for HatchAssignment in 2025
 // Using Swift 6.0
 
+import AppHelpers
 import SwiftUI
 
-struct SheetLikeEffectView<Content: View, Overlay: View>: View {
+public struct SheetLikeEffectView<Content: View, Overlay: View>: View {
     @Environment(\.safeAreaInsets) private var safeAreaInsets
 
-    var trigger: Bool
-    var topPadding: CGFloat?
+    public var trigger: Bool
+    public var topPadding: CGFloat?
 
-    @ViewBuilder var content: () -> Content
-    @ViewBuilder var overlay: () -> Overlay
+    let content: Content
+    let overlay: Overlay
 
-    var body: some View {
+    public init(
+        trigger: Bool,
+        topPadding: CGFloat? = nil,
+        @ViewBuilder content: () -> Content,
+        @ViewBuilder overlay: () -> Overlay
+    ) {
+        self.trigger = trigger
+        self.topPadding = topPadding
+        self.content = content()
+        self.overlay = overlay()
+    }
+
+    public var body: some View {
         ZStack {
             Color.black
                 .ignoresSafeArea(.all)
 
             ZStack(alignment: .bottom) {
-                content()
+                content
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .sheetBackgroundEffect(trigger: trigger)
 
-                overlay()
+                overlay
                     .padding(
                         .top,
                         trigger ? (topPadding ?? safeAreaInsets.top) : 0
