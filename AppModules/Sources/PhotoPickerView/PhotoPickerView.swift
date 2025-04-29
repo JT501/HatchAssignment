@@ -4,12 +4,14 @@
 import SwiftUI
 import SwiftUIIntrospect
 import UIKit
+import AppHelpers
 
-struct PhotoPickerView: View {
+public struct PhotoPickerView: View {
     @Environment(\.safeAreaInsets) private var safeAreaInsets
 
-    static var viewHeight: CGFloat = 350
-    static var dragThreshold: CGFloat = 150
+    public static var viewHeight: CGFloat = 350
+    public static var dragThreshold: CGFloat = 150
+    
     private static let topId = "top"
 
     private var columns: [GridItem] = [
@@ -79,7 +81,7 @@ struct PhotoPickerView: View {
             }
     }
 
-    init(
+    public init(
         onWillResize: ((_ isExpanded: Bool) -> Void)? = nil,
         onSelected: ((Color) -> Void)? = nil
     ) {
@@ -87,7 +89,7 @@ struct PhotoPickerView: View {
         self.onSelected = onSelected
     }
 
-    var body: some View {
+    public var body: some View {
         NavigationStack {
             ScrollViewReader { reader in
                 ScrollView {
@@ -140,7 +142,8 @@ struct PhotoPickerView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarVisibility(showNavigationBar ? .visible : .hidden, for: .navigationBar)
+            .toolbar(showNavigationBar ? .visible : .hidden, for: .navigationBar)
+//            .toolbarVisibility(showNavigationBar ? .visible : .hidden, for: .navigationBar)
         }
         .cornerRadius(isExpanded ? 20 : 0)
         // Give a short time for introspecting search bar before it is hidden

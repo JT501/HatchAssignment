@@ -10,6 +10,7 @@ let targets: [Target] = [
             .appConstants,
             .textChipScrollView,
             .sheetLikeEffectView,
+            .photoPickerView,
         ]
     ),
     .target(name: "AppConstants"),
@@ -23,6 +24,13 @@ let targets: [Target] = [
         name: "SheetLikeEffectView",
         dependencies: [.appHelpers]
     ),
+    .target(
+        name: "PhotoPickerView",
+        dependencies: [
+            .appModels,
+            .appHelpers,
+        ]
+    ),
 ]
 
 let package = Package(
@@ -35,6 +43,7 @@ let package = Package(
         .library("AppModels"),
         .library("TextChipScrollView"),
         .library("SheetLikeEffectView"),
+        .library("PhotoPickerView"),
     ],
     dependencies: [
         .package(url: "https://github.com/siteline/swiftui-introspect", .upToNextMajor(from: "1.3.0")),
@@ -50,6 +59,7 @@ extension Target.Dependency {
     static var appModels: Self { .target(name: "AppModels") }
     static var textChipScrollView: Self { .target(name: "TextChipScrollView") }
     static var sheetLikeEffectView: Self { .target(name: "SheetLikeEffectView") }
+    static var photoPickerView: Self { .target(name: "PhotoPickerView") }
 
     // MARK: Third Party Dependencies
 
