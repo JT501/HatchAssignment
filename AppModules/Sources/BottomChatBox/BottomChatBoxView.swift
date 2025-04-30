@@ -1,11 +1,13 @@
 // Created for HatchAssignment in 2025
 // Using Swift 6.0
 
-import Observation
-import SwiftUI
 import AppConstants
+import Observation
+import PhotoPickerView
+import SelectedImagesScrollView
+import SwiftUI
 
-struct BottomChatBoxView: View {
+public struct BottomChatBoxView: View {
     @Environment(\.safeAreaInsets) private var safeAreaInsets
 
     @State var viewModel: BottomChatBoxViewModel
@@ -16,7 +18,7 @@ struct BottomChatBoxView: View {
     @FocusState var isTextFieldFocused: Bool
     @GestureState var dragState = CGFloat.zero
 
-    init(
+    public init(
         viewModel: BottomChatBoxViewModel,
         onDidResize: ((Bool) -> Void)? = nil,
     ) {
@@ -24,7 +26,7 @@ struct BottomChatBoxView: View {
         self.onDidResize = onDidResize
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack(alignment: .bottom) {
             VStack {
                 HStack(alignment: .top) {

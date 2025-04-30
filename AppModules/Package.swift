@@ -7,12 +7,12 @@ let targets: [Target] = [
     .target(
         name: "AppModules",
         dependencies: [
-            .appConstants,
             .textChipScrollView,
             .sheetLikeEffectView,
             .photoPickerView,
             .selectedImagesScrollView,
             .keyboardAttachedView,
+            .bottomChatBox,
         ]
     ),
     .target(name: "AppConstants"),
@@ -35,6 +35,14 @@ let targets: [Target] = [
     ),
     .target(name: "SelectedImagesScrollView"),
     .target(name: "KeyboardAttachedView"),
+    .target(
+        name: "BottomChatBox",
+        dependencies: [
+            .appConstants,
+            .photoPickerView,
+            .selectedImagesScrollView,
+        ]
+    ),
 ]
 
 let package = Package(
@@ -50,6 +58,7 @@ let package = Package(
         .library("PhotoPickerView"),
         .library("SelectedImagesScrollView"),
         .library("KeyboardAttachedView"),
+        .library("BottomChatBox"),
     ],
     dependencies: [
         .package(url: "https://github.com/siteline/swiftui-introspect", .upToNextMajor(from: "1.3.0")),
@@ -68,6 +77,7 @@ extension Target.Dependency {
     static var photoPickerView: Self { .target(name: "PhotoPickerView") }
     static var selectedImagesScrollView: Self { .target(name: "SelectedImagesScrollView") }
     static var keyboardAttachedView: Self { .target(name: "KeyboardAttachedView") }
+    static var bottomChatBox: Self { .target(name: "BottomChatBox") }
 
     // MARK: Third Party Dependencies
 

@@ -3,8 +3,9 @@
 
 import SwiftUI
 
+@MainActor
 public extension UIApplication {
-    var keyWindow: UIWindow? {
+    var newKeyWindow: UIWindow? {
         connectedScenes
             .compactMap {
                 $0 as? UIWindowScene
@@ -21,7 +22,7 @@ public extension UIApplication {
 @MainActor
 public struct SafeAreaInsetsKey: @preconcurrency EnvironmentKey {
     public static var defaultValue: EdgeInsets {
-        UIApplication.shared.keyWindow?.safeAreaInsets.swiftUiInsets ?? EdgeInsets()
+        UIApplication.shared.newKeyWindow?.safeAreaInsets.swiftUiInsets ?? EdgeInsets()
     }
 }
 

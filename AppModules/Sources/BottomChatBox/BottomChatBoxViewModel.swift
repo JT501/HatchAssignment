@@ -2,12 +2,15 @@
 // Using Swift 6.0
 
 import SwiftUI
+import PhotoPickerView
+import AppHelpers
 
+@MainActor
 @Observable
-class BottomChatBoxViewModel {
+public class BottomChatBoxViewModel {
     let selectedImageScrollViewHeight: CGFloat = 60
 
-    enum Destination {
+    public enum Destination {
         case inputText
         case inputTextFull
         case imagePicker
@@ -16,34 +19,34 @@ class BottomChatBoxViewModel {
     // Cannot use @Environment outside of SwifUI View :(
     var safeAreaInsets = UIApplication
         .shared
-        .keyWindow?
+        .newKeyWindow?
         .safeAreaInsets
         .swiftUiInsets ?? EdgeInsets()
 
-    var text: String
-    var selectedImage: [Color] = []
-    var destination: Destination?
-    var isImagePickerExpanded: Bool = false
-    var isKeyboardShown: Bool = false
+    public var text: String
+    public var selectedImage: [Color] = []
+    public var destination: Destination?
+    public var isImagePickerExpanded: Bool = false
+    public var isKeyboardShown: Bool = false
 
-    var resizeButtonOpacity: Double {
+    public var resizeButtonOpacity: Double {
         !text.isEmpty ||
             destination == .inputTextFull ? 1 : 0
     }
 
-    var expandTextInput: Bool {
+    public var expandTextInput: Bool {
         destination == .inputTextFull
     }
 
-    var showImagePicker: Bool {
+    public var showImagePicker: Bool {
         destination == .imagePicker
     }
 
-    var showSelectedImages: Bool {
+    public var showSelectedImages: Bool {
         !selectedImage.isEmpty
     }
 
-    var bottomPadding: CGFloat {
+    public var bottomPadding: CGFloat {
         switch destination {
             case .inputText, .inputTextFull:
                 isKeyboardShown ?
@@ -62,7 +65,7 @@ class BottomChatBoxViewModel {
         }
     }
 
-    init(
+    public init(
         text: String = "",
         destination: Destination? = nil,
     ) {
@@ -70,7 +73,7 @@ class BottomChatBoxViewModel {
         self.destination = destination
     }
 
-    func onTextInputDidTap() {
+    public func onTextInputDidTap() {
         guard destination != .inputText, destination != .inputTextFull else { return }
 
         withAnimation(.easeInOut(duration: 0.5)) {
@@ -78,7 +81,7 @@ class BottomChatBoxViewModel {
         }
     }
 
-    func onDidTapResizeButton() {
+    public func onDidTapResizeButton() {
         withAnimation(.easeInOut(duration: 0.5)) {
             if destination == .inputTextFull {
                 destination = .inputText
@@ -88,7 +91,7 @@ class BottomChatBoxViewModel {
         }
     }
 
-    func onIsKeyboardShownDidChange(_ isShown: Bool) {
+    public func onIsKeyboardShownDidChange(_ isShown: Bool) {
         if !isShown, destination == .inputText {
             withAnimation(.easeOut(duration: 0.5)) {
                 destination = nil
@@ -96,7 +99,7 @@ class BottomChatBoxViewModel {
         }
     }
 
-    func onDidTapImagePickerButton() {
+    public func onDidTapImagePickerButton() {
         withAnimation(.easeInOut(duration: 0.5)) {
             if destination == .imagePicker {
                 destination = nil
@@ -106,7 +109,7 @@ class BottomChatBoxViewModel {
         }
     }
 
-    func onDidSelectedImage(_ color: Color) {
+    public func onDidSelectedImage(_ color: Color) {
         withAnimation(.easeInOut(duration: 0.5)) {
             destination = nil
             selectedImage.append(color)
