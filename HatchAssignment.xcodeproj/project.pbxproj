@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0500B8A02DB8AB47007EA538 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 0500B89F2DB8AB47007EA538 /* SwiftUIIntrospect */; };
+		05145EBD2DC16C37001461B6 /* AppModules in Frameworks */ = {isa = PBXBuildFile; productRef = 05145EBC2DC16C37001461B6 /* AppModules */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		0520E9112DB442B6002B0A87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +32,7 @@
 		0520E9032DB442B5002B0A87 /* HatchAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HatchAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0520E9102DB442B6002B0A87 /* HatchAssignmentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HatchAssignmentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0520E91A2DB442B6002B0A87 /* HatchAssignmentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HatchAssignmentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		05C047BC2DC1698E00C26C3F /* AppModules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppModules; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +58,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05145EBD2DC16C37001461B6 /* AppModules in Frameworks */,
+				0500B8A02DB8AB47007EA538 /* SwiftUIIntrospect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +80,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		05145EBB2DC16C37001461B6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		0520E8FA2DB442B5002B0A87 = {
 			isa = PBXGroup;
 			children = (
+				05C047BC2DC1698E00C26C3F /* AppModules */,
 				0520E9052DB442B5002B0A87 /* HatchAssignment */,
 				0520E9132DB442B6002B0A87 /* HatchAssignmentTests */,
 				0520E91D2DB442B6002B0A87 /* HatchAssignmentUITests */,
+				05145EBB2DC16C37001461B6 /* Frameworks */,
 				0520E9042DB442B5002B0A87 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +129,8 @@
 			);
 			name = HatchAssignment;
 			packageProductDependencies = (
+				0500B89F2DB8AB47007EA538 /* SwiftUIIntrospect */,
+				05145EBC2DC16C37001461B6 /* AppModules */,
 			);
 			productName = HatchAssignment;
 			productReference = 0520E9032DB442B5002B0A87 /* HatchAssignment.app */;
@@ -195,6 +214,9 @@
 			);
 			mainGroup = 0520E8FA2DB442B5002B0A87;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				0500B89E2DB8AB47007EA538 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0520E9042DB442B5002B0A87 /* Products */;
 			projectDirPath = "";
@@ -560,6 +582,29 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0500B89E2DB8AB47007EA538 /* XCRemoteSwiftPackageReference "swiftui-introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/swiftui-introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0500B89F2DB8AB47007EA538 /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0500B89E2DB8AB47007EA538 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
+			productName = SwiftUIIntrospect;
+		};
+		05145EBC2DC16C37001461B6 /* AppModules */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppModules;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0520E8FB2DB442B5002B0A87 /* Project object */;
 }
