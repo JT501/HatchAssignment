@@ -7,7 +7,7 @@ import SwiftUI
 struct HatchAssignmentApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ChatView()
                 .colorScheme(.light)
         }
     }
