@@ -39,7 +39,10 @@ public struct SelectedImageScrollView: View {
                             }
                         }
                 }
-                .animation(.bouncy, value: selectedImage)
+                .animation(
+                    .bouncy(duration: 1).speed(2),
+                    value: selectedImage
+                )
             }
             .scrollIndicators(.hidden)
             .contentMargins(.horizontal, 8, for: .scrollContent)
