@@ -1,39 +1,32 @@
 // Created for HatchAssignment in 2025
 // Using Swift 6.0
 
+import AppHelpers
 import SwiftUI
 import SwiftUIIntrospect
 import UIKit
-import AppHelpers
 
 public struct PhotoPickerView: View {
     @Environment(\.safeAreaInsets) private var safeAreaInsets
 
-    public static var viewHeight: CGFloat = 350
+    public static var shrinkHeight: CGFloat = 350
     public static var dragThreshold: CGFloat = 150
-    
-    private static let topId = "top"
-
-    private var columns: [GridItem] = [
-        .init(.flexible(), spacing: 2),
-        .init(.flexible(), spacing: 2),
-        .init(.flexible(), spacing: 2),
-    ]
 
     private var tabs: [String] = [
         "Photos",
         "Collections",
     ]
 
+    var expandHeight: CGFloat?
     @State var searchText: String = ""
     @State var selectedTab = "Photos"
     @State var isExpanded: Bool = false
     @State var showNavigationBar: Bool = true
-    @State var currentOffset = CGFloat.zero
-    @State var shouldScrollToTop = false
+    @State var scrollToTop = false
     @State var photoIsSelected = false
     @State var isResizing = false
     @State var isSearching = false
+    @State var currentOffset = CGFloat.zero
     @GestureState var dragState = CGFloat.zero
 
     // Callback functions
@@ -82,39 +75,27 @@ public struct PhotoPickerView: View {
     }
 
     public init(
+        expandHeight: CGFloat? = nil,
         onWillResize: ((_ isExpanded: Bool) -> Void)? = nil,
         onSelected: ((Color) -> Void)? = nil
     ) {
+        self.expandHeight = expandHeight
         self.onWillResize = onWillResize
         self.onSelected = onSelected
     }
 
     public var body: some View {
         NavigationStack {
-            ScrollViewReader { reader in
-                ScrollView {
-                    // An empty view for scroll to top action
-                    EmptyView()
-                        .id(Self.topId)
-                        .onChange(of: shouldScrollToTop) {
-                            withAnimation {
-                                reader.scrollTo(Self.topId, anchor: .top)
-                            }
-                        }
-
-                    LazyVGrid(columns: columns, spacing: 2) {
-                        ForEach(photos, id: \.self) { color in
-                            color.aspectRatio(contentMode: .fill)
-                                .onTapGesture { _ in
-                                    onSelected?(color)
-                                }
-                        }
-                    }
-                    .padding(.horizontal, 2)
-                }
+            PhotoScrollView(
+                photos: photos,
+                scrollToTop: scrollToTop
+            ) { color in
+                photoIsSelected = true
+                onSelected?(color)
             }
             // Avoid unexpected multi-select
             .allowsHitTesting(!photoIsSelected)
+            // Disable scrolling on shrink mode
             .scrollDisabled(!isExpanded)
             .scrollDismissesKeyboard(.interactively)
             .searchable(text: $searchText, prompt: "Search your library")
@@ -143,9 +124,13 @@ public struct PhotoPickerView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(showNavigationBar ? .visible : .hidden, for: .navigationBar)
-//            .toolbarVisibility(showNavigationBar ? .visible : .hidden, for: .navigationBar)
         }
-        .cornerRadius(isExpanded ? 20 : 0)
+        .clipShape(
+            UnevenRoundedRectangle(
+                topLeadingRadius: isExpanded ? 15 : 0,
+                topTrailingRadius: isExpanded ? 15 : 0
+            )
+        )
         // Give a short time for introspecting search bar before it is hidden
         .task {
             try? await Task.sleep(for: .milliseconds(10))
@@ -159,7 +144,6 @@ public struct PhotoPickerView: View {
             searchTextField.rightView = micIconImageView
             searchTextField.rightViewMode = .always
         }
-        .offset(y: currentOffset + dragState)
         // Drag up gesture
         .gesture(
             dragUp,
@@ -170,7 +154,9 @@ public struct PhotoPickerView: View {
             dragDown,
             isEnabled: isExpanded
         )
-        .frame(height: isExpanded ? nil : Self.viewHeight, alignment: .top)
+        .offset(y: currentOffset + dragState)
+        .frame(height: isExpanded ? nil : Self.shrinkHeight)
+        .frame(maxHeight: isExpanded ? expandHeight : nil)
         .shadow(radius: isExpanded ? 5 : 0, x: 0, y: 2)
         .sensoryFeedback(
             .impact,
@@ -180,7 +166,7 @@ public struct PhotoPickerView: View {
 
     private func expandView() {
         onWillResize?(true)
-        shouldScrollToTop = false
+        scrollToTop.toggle()
         isResizing = true
 
         withAnimation(.smooth) {
@@ -191,15 +177,17 @@ public struct PhotoPickerView: View {
 
         withAnimation(.smooth.delay(0.5)) {
             showNavigationBar = true
+        } completion: {
+            isResizing = false
         }
     }
 
     private func shrinkView() {
         onWillResize?(false)
-        shouldScrollToTop = true
+        scrollToTop.toggle()
         isResizing = true
 
-        withAnimation(.easeOut) {
+        withAnimation(.easeOut(duration: 0.5)) {
             isExpanded = false
             currentOffset = 0
         } completion: {
