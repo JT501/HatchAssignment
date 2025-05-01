@@ -144,6 +144,7 @@ public struct PhotoPickerView: View {
             searchTextField.rightView = micIconImageView
             searchTextField.rightViewMode = .always
         }
+        .offset(y: currentOffset + dragState)
         // Drag up gesture
         .gesture(
             dragUp,
@@ -154,8 +155,7 @@ public struct PhotoPickerView: View {
             dragDown,
             isEnabled: isExpanded
         )
-        .offset(y: currentOffset + dragState)
-        .frame(height: isExpanded ? nil : Self.shrinkHeight)
+        .frame(height: isExpanded ? nil : Self.shrinkHeight, alignment: .top)
         .frame(maxHeight: isExpanded ? expandHeight : nil)
         .shadow(radius: isExpanded ? 5 : 0, x: 0, y: 2)
         .sensoryFeedback(
