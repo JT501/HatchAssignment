@@ -4,7 +4,7 @@
 import SwiftUI
 
 public struct SelectedImageScrollView: View {
-    private static let BottomId = "bottom"
+    private static let TrailingId = "trailing"
 
     @Binding var selectedImage: [Color]
     @State var shouldScrollToTrail = false
@@ -32,10 +32,10 @@ public struct SelectedImageScrollView: View {
                     // An invisible spacer for scroll to trailing action
                     Spacer()
                         .frame(width: 4)
-                        .id(Self.BottomId)
+                        .id(Self.TrailingId)
                         .onChange(of: shouldScrollToTrail) {
                             withAnimation(.bouncy(extraBounce: 0.2)) {
-                                reader.scrollTo(Self.bottomId, anchor: .trailing)
+                                reader.scrollTo(Self.TrailingId, anchor: .trailing)
                             }
                         }
                 }
@@ -55,10 +55,20 @@ public struct SelectedImageScrollView: View {
     }
 }
 
+import AppHelpers
+
 #Preview {
     @Previewable @State var selectedImage: [Color] = [.black, .red, .yellow, .green]
 
-    SelectedImageScrollView(
-        selectedImage: $selectedImage
-    )
+    VStack {
+        Button {
+            selectedImage.append(.random)
+        } label: {
+            Text("Add Image")
+        }
+        
+        SelectedImageScrollView(
+            selectedImage: $selectedImage
+        )
+    }
 }

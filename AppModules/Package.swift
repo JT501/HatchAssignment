@@ -33,7 +33,10 @@ let targets: [Target] = [
             .appHelpers,
         ]
     ),
-    .target(name: "SelectedImagesScrollView"),
+    .target(
+        name: "SelectedImagesScrollView",
+        dependencies: [.appHelpers]
+    ),
     .target(name: "KeyboardAttachedView"),
     .target(
         name: "BottomChatBox",
