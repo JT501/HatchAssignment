@@ -2,6 +2,7 @@
 // Using Swift 6.0
 
 import AppHelpers
+import AppModels
 import SwiftUI
 import SwiftUIIntrospect
 import UIKit
@@ -31,19 +32,20 @@ public struct PhotoPickerView: View {
 
     // Callback functions
     var onWillResize: ((_ isExpanded: Bool) -> Void)?
-    var onSelected: ((Color) -> Void)?
+    var onSelected: ((Photo) -> Void)?
 
-    @State private var photos: [Color] = [
-        .random, .random, .random,
-        .random, .random, .random,
-        .random, .random, .random,
-        .random, .random, .random,
-        .random, .random, .random,
-        .random, .random, .random,
-        .random, .random, .random,
-        .random, .random, .random,
-        .random, .random, .random,
-        .random, .random, .random,
+    @State private var photos: [Photo] = [
+        .init(), .init(), .init(),
+        .init(), .init(), .init(),
+        .init(), .init(), .init(),
+        .init(), .init(), .init(),
+        .init(), .init(), .init(),
+        .init(), .init(), .init(),
+        .init(), .init(), .init(),
+        .init(), .init(), .init(),
+        .init(), .init(), .init(),
+        .init(), .init(), .init(),
+        .init(), .init(), .init(),
     ]
 
     private var dragUp: some Gesture {
@@ -77,7 +79,7 @@ public struct PhotoPickerView: View {
     public init(
         expandHeight: CGFloat? = nil,
         onWillResize: ((_ isExpanded: Bool) -> Void)? = nil,
-        onSelected: ((Color) -> Void)? = nil
+        onSelected: ((Photo) -> Void)? = nil
     ) {
         self.expandHeight = expandHeight
         self.onWillResize = onWillResize

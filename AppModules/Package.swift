@@ -17,7 +17,10 @@ let targets: [Target] = [
     ),
     .target(name: "AppConstants"),
     .target(name: "AppHelpers"),
-    .target(name: "AppModels"),
+    .target(
+        name: "AppModels",
+        dependencies: [.appHelpers]
+    ),
     .target(
         name: "TextChipScrollView",
         dependencies: [.appModels]
@@ -36,12 +39,16 @@ let targets: [Target] = [
     ),
     .target(
         name: "SelectedImagesScrollView",
-        dependencies: [.appHelpers]
+        dependencies: [
+            .appModels,
+            .appHelpers
+        ]
     ),
     .target(name: "KeyboardAttachedView"),
     .target(
         name: "BottomChatBox",
         dependencies: [
+            .appModels,
             .appConstants,
             .photoPickerView,
             .selectedImagesScrollView,

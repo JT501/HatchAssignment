@@ -2,6 +2,7 @@
 // Using Swift 6.0
 
 import AppHelpers
+import AppModels
 import PhotoPickerView
 import SwiftUI
 
@@ -24,7 +25,7 @@ public class BottomChatBoxViewModel {
         .swiftUiInsets ?? EdgeInsets()
 
     public var text: String
-    public var selectedImage: [Color] = []
+    public var selectedImage: [Photo] = []
     public var destination: Destination?
     public var isImagePickerExpanded: Bool = false
     public var isKeyboardShown: Bool = false
@@ -104,10 +105,10 @@ public class BottomChatBoxViewModel {
         }
     }
 
-    public func onDidSelectedImage(_ color: Color) {
+    public func onDidSelectedImage(_ photo: Photo) {
         withAnimation(.easeInOut(duration: 0.5)) {
             destination = nil
-            selectedImage.append(color)
+            selectedImage.append(photo)
         }
     }
 }

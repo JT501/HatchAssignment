@@ -73,7 +73,7 @@ struct ChatView: View {
                 ) { isExpanded in
                     isChatBoxExpanded = isExpanded
 
-                    withAnimation(.bouncy(duration: 0.3)) {
+                    withAnimation(.bouncy(duration: 0.3).delay(0.3)) {
                         showTextChips = !isExpanded
                     }
                 }

@@ -2,14 +2,15 @@
 // Using Swift 6.0
 
 import SwiftUI
+import AppModels
 
 struct ThumbnailView: View {
-    var image: Color
+    var image: Photo
     var onDidTapDelete: (() -> Void)?
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            image.frame(width: 50, height: 50)
+            image.color.frame(width: 50, height: 50)
                 .cornerRadius(5)
 
             Image(systemName: "x.circle.fill")
@@ -33,6 +34,6 @@ struct ThumbnailView: View {
 
 #Preview {
     ThumbnailView(
-        image: .yellow
+        image: .init(color: .yellow)
     )
 }

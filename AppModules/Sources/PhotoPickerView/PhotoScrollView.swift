@@ -1,33 +1,34 @@
 // Created for AppModules in 2025
 // Using Swift 6.0
 
+import AppModels
 import SwiftUI
 
 public struct PhotoScrollView: View {
     private static let TopId = "top"
-    
-    @State var photos: [Color]
-    @State private var scrollToTop: Bool = false
-    
+
+    @State var photos: [Photo]
+    private var scrollToTop: Bool = false
+
     private var columns: [GridItem] = [
         .init(.flexible(), spacing: 2),
         .init(.flexible(), spacing: 2),
         .init(.flexible(), spacing: 2),
     ]
-    
+
     // Callback function
-    var onSelected: ((Color) -> Void)?
-    
+    var onSelected: ((Photo) -> Void)?
+
     public init(
-        photos: [Color],
+        photos: [Photo],
         scrollToTop: Bool = false,
-        onSelected: ((Color) -> Void)? = nil
+        onSelected: ((Photo) -> Void)? = nil
     ) {
         self.photos = photos
         self.scrollToTop = scrollToTop
         self.onSelected = onSelected
     }
-    
+
     public var body: some View {
         ScrollViewReader { reader in
             ScrollView {
@@ -41,10 +42,10 @@ public struct PhotoScrollView: View {
                     }
 
                 LazyVGrid(columns: columns, spacing: 2) {
-                    ForEach(photos, id: \.self) { color in
-                        color.aspectRatio(contentMode: .fill)
+                    ForEach(photos) { photo in
+                        photo.color.aspectRatio(contentMode: .fill)
                             .onTapGesture { _ in
-                                onSelected?(color)
+                                onSelected?(photo)
                             }
                     }
                 }
@@ -56,6 +57,6 @@ public struct PhotoScrollView: View {
 
 #Preview {
     PhotoScrollView(
-        photos: [.random, .random, .random]
+        photos: [.init(), .init(), .init()]
     )
 }

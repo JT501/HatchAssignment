@@ -1,15 +1,16 @@
 // Created for HatchAssignment in 2025
 // Using Swift 6.0
 
+import AppModels
 import SwiftUI
 
 public struct SelectedImageScrollView: View {
     private static let TrailingId = "trailing"
 
-    @Binding var selectedImage: [Color]
+    @Binding var selectedImage: [Photo]
     @State var shouldScrollToTrail = false
 
-    public init(selectedImage: Binding<[Color]>) {
+    public init(selectedImage: Binding<[Photo]>) {
         _selectedImage = selectedImage
     }
 
@@ -17,9 +18,9 @@ public struct SelectedImageScrollView: View {
         ScrollViewReader { reader in
             ScrollView(.horizontal) {
                 HStack(spacing: 8) {
-                    ForEach(selectedImage, id: \.self) { image in
+                    ForEach(selectedImage) { image in
                         ThumbnailView(image: image) {
-                            selectedImage.removeAll(where: { $0 == image })
+                            selectedImage.removeAll(where: { $0.id == image.id })
                         }
                         .transition(
                             .asymmetric(
@@ -61,15 +62,15 @@ public struct SelectedImageScrollView: View {
 import AppHelpers
 
 #Preview {
-    @Previewable @State var selectedImage: [Color] = [.black, .red, .yellow, .green]
+    @Previewable @State var selectedImage: [Photo] = [.init(), .init(), .init(), .init()]
 
     VStack {
         Button {
-            selectedImage.append(.random)
+            selectedImage.append(.init())
         } label: {
             Text("Add Image")
         }
-        
+
         SelectedImageScrollView(
             selectedImage: $selectedImage
         )
