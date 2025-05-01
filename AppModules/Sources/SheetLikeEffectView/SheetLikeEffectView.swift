@@ -23,13 +23,17 @@ public struct SheetLikeEffectView<Content: View, Overlay: View>: View {
     }
 
     public var body: some View {
+        ZStack(alignment: .bottom) {
+            Color.black
+                .ignoresSafeArea()
+
             ZStack(alignment: .bottom) {
                 content
                     .sheetBackgroundEffect(trigger: trigger)
 
                 overlay
             }
-            .background(Color.black)
             .ignoresSafeArea(.all)
+        }
     }
 }
