@@ -54,7 +54,6 @@ public class KeyboardObservingViewController: UIViewController {
         let newOffset = emptyView.layer.position.y
 
         if abs(newOffset - offset.wrappedValue) > 100 {
-            print("Offset:", newOffset)
             withAnimation(keyboardAnimation) {
                 self.offset.wrappedValue = newOffset
             }
