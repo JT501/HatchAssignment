@@ -5,7 +5,7 @@ import SwiftUI
 
 public struct KeyboardAttachedView: UIViewControllerRepresentable {
     public var offset: Binding<CGFloat>
-    
+
     public init(offset: Binding<CGFloat>) {
         self.offset = offset
     }
@@ -36,21 +36,25 @@ public class KeyboardObservingViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func viewDidAppear(_ animated: Bool) {
+    override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         view.addSubview(emptyView)
         view.keyboardLayoutGuide.usesBottomSafeArea = false
         emptyView.translatesAutoresizingMaskIntoConstraints = false
-        emptyView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor).isActive = true
-        emptyView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        emptyView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+
+        NSLayoutConstraint.activate([
+            emptyView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
+            emptyView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            emptyView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
     }
 
-    public override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let newOffset = emptyView.layer.position.y
 
         if abs(newOffset - offset.wrappedValue) > 100 {
+            print("Offset:", newOffset)
             withAnimation(keyboardAnimation) {
                 self.offset.wrappedValue = newOffset
             }
