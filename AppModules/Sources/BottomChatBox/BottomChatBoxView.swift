@@ -10,7 +10,10 @@ import SwiftUI
 public struct BottomChatBoxView: View {
     @Environment(\.safeAreaInsets) private var safeAreaInsets
 
+    private let dragThreshold: CGFloat = 75
+
     @State var viewModel: BottomChatBoxViewModel
+    var expandHeight: CGFloat?
 
     // Callback functions
     var onDidResize: ((Bool) -> Void)?
@@ -18,11 +21,29 @@ public struct BottomChatBoxView: View {
     @FocusState var isTextFieldFocused: Bool
     @GestureState var dragState = CGFloat.zero
 
+    var dragDown: some Gesture {
+        DragGesture(coordinateSpace: .global)
+            .updating($dragState) { drag, state, _ in
+                state = drag.translation.height
+
+                if drag.translation.height > dragThreshold {
+                    isTextFieldFocused = false
+                    withAnimation {
+                        if viewModel.destination != .inputTextFull {
+                            viewModel.destination = nil
+                        }
+                    }
+                }
+            }
+    }
+
     public init(
         viewModel: BottomChatBoxViewModel,
+        expandHeight: CGFloat? = nil,
         onDidResize: ((Bool) -> Void)? = nil,
     ) {
         self.viewModel = viewModel
+        self.expandHeight = expandHeight
         self.onDidResize = onDidResize
     }
 
@@ -49,17 +70,17 @@ public struct BottomChatBoxView: View {
                         }
                         .opacity(viewModel.resizeButtonOpacity)
                         .disabled(viewModel.resizeButtonOpacity == 0)
-                        .animation(.easeInOut, value: viewModel.resizeButtonOpacity)
+                        .animation(
+                            .easeInOut(duration: 0.25),
+                            value: viewModel.resizeButtonOpacity
+                        )
                         .sensoryFeedback(
                             .impact,
                             trigger: viewModel.expandTextInput
                         )
                     }
-                    .frame(
-                        height: viewModel.expandTextInput ? nil : 90,
-                        alignment: .top
-                    )
                 }
+                .frame(height: viewModel.expandTextInput ? nil : 90)
                 .contentShape(Rectangle())
                 .padding(.horizontal)
 
@@ -69,7 +90,7 @@ public struct BottomChatBoxView: View {
                     )
                     .transition(
                         .asymmetric(
-                            insertion: .move(edge: .bottom),
+                            insertion: .move(edge: .leading),
                             removal: .move(edge: .leading)
                         )
                     )
@@ -95,15 +116,27 @@ public struct BottomChatBoxView: View {
             .mask {
                 Rectangle().padding(.top, -10)
             }
-            .animation(.easeOut, value: viewModel.showSelectedImages)
             .animation(
-                .easeIn(duration: 0.25),
+                .linear(duration: 0.5),
+                value: viewModel.showSelectedImages
+            )
+            .animation(
+                .linear(duration: 0.25),
                 value: viewModel.isKeyboardShown
+            )
+            .animation(
+                .bouncy(duration: 0.5),
+                value: viewModel.expandTextInput
+            )
+            .animation(
+                .easeInOut(duration: 0.5),
+                value: viewModel.bottomPadding
             )
             .zIndex(0)
 
             if viewModel.showImagePicker {
                 PhotoPickerView(
+                    expandHeight: expandHeight,
                     onWillResize: { isExpanded in
                         viewModel.isImagePickerExpanded = isExpanded
                         onDidResize?(isExpanded)
@@ -113,30 +146,20 @@ public struct BottomChatBoxView: View {
                         viewModel.onDidSelectedImage($0)
                     }
                 )
-                .ignoresSafeArea(.keyboard)
                 .transition(.move(edge: .bottom))
                 .zIndex(1)
             }
         }
+        .frame(maxHeight: viewModel.expandTextInput ? expandHeight : nil)
+        .animation(
+            .easeInOut(duration: 0.5),
+            value: viewModel.showImagePicker
+        )
         .observeKeyboard($viewModel.isKeyboardShown)
         .onChange(of: viewModel.isKeyboardShown) {
             viewModel.onIsKeyboardShownDidChange($1)
         }
-        .gesture(
-            DragGesture(coordinateSpace: .global)
-                .updating($dragState) { drag, state, _ in
-                    state = drag.translation.height
-
-                    if drag.translation.height > 75 {
-                        isTextFieldFocused = false
-                        withAnimation {
-                            if viewModel.destination != .inputTextFull {
-                                viewModel.destination = nil
-                            }
-                        }
-                    }
-                }
-        )
+        .gesture(dragDown)
     }
 }
 

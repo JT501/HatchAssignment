@@ -17,6 +17,9 @@ struct ActionButtonsBar: View {
                 Image(systemName: "photo.circle")
                     .font(.system(size: 35))
             }
+            .transaction { t in
+                t.disablesAnimations = true
+            }
 
             Spacer()
 

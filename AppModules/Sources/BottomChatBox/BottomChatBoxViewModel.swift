@@ -1,9 +1,9 @@
 // Created for HatchAssignment in 2025
 // Using Swift 6.0
 
-import SwiftUI
-import PhotoPickerView
 import AppHelpers
+import PhotoPickerView
+import SwiftUI
 
 @MainActor
 @Observable
@@ -54,10 +54,9 @@ public class BottomChatBoxViewModel {
 
             case .imagePicker:
                 if !isImagePickerExpanded {
-                    PhotoPickerView.viewHeight + 8
+                    PhotoPickerView.shrinkHeight + 8
                 } else {
-                    0 - (showSelectedImages ? selectedImageScrollViewHeight : 0)
-                        - (isKeyboardShown ? 12 : 0)
+                    safeAreaInsets.bottom
                 }
 
             case nil:
@@ -82,20 +81,16 @@ public class BottomChatBoxViewModel {
     }
 
     public func onDidTapResizeButton() {
-        withAnimation(.easeInOut(duration: 0.5)) {
-            if destination == .inputTextFull {
-                destination = .inputText
-            } else {
-                destination = .inputTextFull
-            }
+        if destination == .inputTextFull {
+            destination = .inputText
+        } else {
+            destination = .inputTextFull
         }
     }
 
     public func onIsKeyboardShownDidChange(_ isShown: Bool) {
         if !isShown, destination == .inputText {
-            withAnimation(.easeOut(duration: 0.5)) {
-                destination = nil
-            }
+            destination = nil
         }
     }
 
