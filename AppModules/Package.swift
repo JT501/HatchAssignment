@@ -31,6 +31,7 @@ let targets: [Target] = [
         dependencies: [
             .appModels,
             .appHelpers,
+            .introspect,
         ]
     ),
     .target(
