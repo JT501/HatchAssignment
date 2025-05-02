@@ -11,7 +11,7 @@ import SwiftUI
 public class BottomChatBoxViewModel {
     let selectedImageScrollViewHeight: CGFloat = 60
 
-    public enum Destination {
+    public enum Destination: Equatable {
         case inputText
         case inputTextFull
         case imagePicker
@@ -54,11 +54,8 @@ public class BottomChatBoxViewModel {
                     12 : safeAreaInsets.bottom
 
             case .imagePicker:
-                if !isImagePickerExpanded {
-                    PhotoPickerView.shrinkHeight + 8
-                } else {
-                    safeAreaInsets.bottom
-                }
+                isKeyboardShown ?
+                    safeAreaInsets.bottom : PhotoPickerView.shrinkHeight + 8
 
             case nil:
                 safeAreaInsets.bottom

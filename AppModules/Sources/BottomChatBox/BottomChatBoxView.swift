@@ -14,6 +14,7 @@ public struct BottomChatBoxView: View {
 
     @State var viewModel: BottomChatBoxViewModel
     var expandHeight: CGFloat?
+    @State private var imageButtonOnTap: Bool = false
 
     // Callback functions
     var onDidResize: ((Bool) -> Void)?
@@ -101,6 +102,7 @@ public struct BottomChatBoxView: View {
                     onDidTapImageButton: {
                         isTextFieldFocused = false
                         onDidResize?(false)
+                        imageButtonOnTap.toggle()
                         viewModel.onDidTapImagePickerButton()
                     }
                 )
@@ -159,7 +161,14 @@ public struct BottomChatBoxView: View {
         .onChange(of: viewModel.isKeyboardShown) {
             viewModel.onIsKeyboardShownDidChange($1)
         }
-        .gesture(dragDown)
+        .gesture(
+            dragDown,
+            isEnabled: !viewModel.isImagePickerExpanded
+        )
+        .sensoryFeedback(
+            .impact(weight: .medium, intensity: 1.0),
+            trigger: imageButtonOnTap
+        )
     }
 }
 
