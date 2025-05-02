@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct ActionButtonsBar: View {
-    var text: String = ""
+    var isSendButtonEnabled: Bool = false
     var onDidTapImageButton: (() -> Void)?
     var onDidTapSendButton: (() -> Void)?
 
@@ -29,9 +29,14 @@ struct ActionButtonsBar: View {
             label: {
                 Image(systemName: "paperplane.circle.fill")
                     .font(.system(size: 35))
+                    .padding(-3)
+                    .background(.white)
+                    .clipShape(.circle)
             }
-            .disabled(text.isEmpty)
-            .animation(.easeInOut, value: text)
+            .padding(3)
+            .disabled(!isSendButtonEnabled)
+            .animation(.easeInOut, value: isSendButtonEnabled)
+            .glowingShadow(isActive: isSendButtonEnabled)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 4)

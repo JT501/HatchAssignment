@@ -54,8 +54,12 @@ public class BottomChatBoxViewModel {
                     12 : safeAreaInsets.bottom
 
             case .imagePicker:
-                isKeyboardShown ?
-                    safeAreaInsets.bottom : PhotoPickerView.shrinkHeight + 8
+                if !isImagePickerExpanded {
+                    PhotoPickerView.shrinkHeight + 8
+                } else {
+                    isKeyboardShown ?
+                        safeAreaInsets.bottom : PhotoPickerView.shrinkHeight + 8
+                }
 
             case nil:
                 safeAreaInsets.bottom

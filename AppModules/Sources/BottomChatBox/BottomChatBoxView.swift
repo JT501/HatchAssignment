@@ -98,7 +98,7 @@ public struct BottomChatBoxView: View {
                 }
 
                 ActionButtonsBar(
-                    text: viewModel.text,
+                    isSendButtonEnabled: !viewModel.text.isEmpty || !viewModel.selectedImage.isEmpty,
                     onDidTapImageButton: {
                         isTextFieldFocused = false
                         onDidResize?(false)
