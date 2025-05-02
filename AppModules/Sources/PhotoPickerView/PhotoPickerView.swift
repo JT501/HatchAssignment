@@ -71,6 +71,8 @@ public struct PhotoPickerView: View {
                 }
             }
             .onEnded { drag in
+                guard drag.translation.height > 0 else { return }
+                
                 currentOffset = drag.translation.height
                 if drag.translation.height > Self.dragThreshold {
                     shrinkView()
