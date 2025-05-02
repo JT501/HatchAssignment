@@ -62,7 +62,7 @@ struct ChatView: View {
                     .transition(
                         .asymmetric(
                             insertion: .move(edge: .top),
-                            removal: .opacity
+                            removal: .identity
                         )
                     )
                 }
@@ -73,7 +73,7 @@ struct ChatView: View {
                 ) { isExpanded in
                     isChatBoxExpanded = isExpanded
 
-                    withAnimation(.bouncy(duration: 0.3).delay(0.3)) {
+                    withAnimation(.bouncy(duration: 0.3).delay(0.2)) {
                         showTextChips = !isExpanded
                     }
                 }
