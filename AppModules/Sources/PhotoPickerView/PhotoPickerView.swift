@@ -10,8 +10,8 @@ import UIKit
 public struct PhotoPickerView: View {
     @Environment(\.safeAreaInsets) private var safeAreaInsets
 
-    public static var shrinkHeight: CGFloat = 350
-    public static var dragThreshold: CGFloat = 150
+    public static var shrinkHeight: CGFloat = UIScreen.main.bounds.height * 0.4
+    public static var dragThreshold: CGFloat = 200
 
     private var tabs: [String] = [
         "Photos",
@@ -62,6 +62,12 @@ public struct PhotoPickerView: View {
             .updating($dragState) { drag, state, _ in
                 if isExpanded, drag.translation.height > 0 {
                     state = drag.translation.height
+
+                    if drag.translation.height >= Self.dragThreshold {
+                        withAnimation {
+                            shrinkView()
+                        }
+                    }
                 }
             }
             .onEnded { drag in
@@ -160,10 +166,15 @@ public struct PhotoPickerView: View {
         .frame(height: isExpanded ? nil : Self.shrinkHeight, alignment: .top)
         .frame(maxHeight: isExpanded ? expandHeight : nil)
         .shadow(radius: isExpanded ? 5 : 0, x: 0, y: 2)
+        .animation(.bouncy, value: dragState)
         .sensoryFeedback(
             .impact,
             trigger: isExpanded
         ) { $1 }
+        .sensoryFeedback(
+            .decrease,
+            trigger: isExpanded
+        ) { !$1 }
     }
 
     private func expandView() {
