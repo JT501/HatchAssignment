@@ -27,7 +27,8 @@ This is a technical assessment for the Design Engineer position at Hatch Innovat
 - Semi-expanded photo picker on tapping the photo icon  
 - Drag gestures for expanding and collapsing the photo picker  
 - Thumbnail previews for selected images  
-- Smooth, fine-tuned animations for all interactions and transitions  
+- Smooth, fine-tuned animations for all interactions and transitions
+- Haptic feedback integrated into key user actions  
 - Modular architecture implemented via Swift Package
 
 ## Accessibility
