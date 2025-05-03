@@ -1,38 +1,36 @@
 # Design Engineer Assignment
 
-This is an interview assignment for Hatch Innovation.
+This is a technical assessment for the Design Engineer position at Hatch Innovation.
 
-**Caution**: This project is not Production-proof, please consider the risk to use it in production code.
+> ⚠️ **Note:** This project is not intended for production use. Exercise caution if adapting any part of it for production environments.
 
 ## Screenshots
 
-|Light|Dark|
-|-----|----|
-|![Light](Screenshots/Light.png)|![Dark](Screenshots/Dark.png)|
+| Light Mode | Dark Mode |
+|------------|-----------|
+| ![Light](Screenshots/Light.png) | ![Dark](Screenshots/Dark.png) |
 
-## Notes
+## Requirements
 
-1. Min. Deployments: iOS 17.0
-2. Better use Xcode 16.3 or later to build
-3. Better use real device for full experience, i.e. Haptic Feedback
-4. 3rd party framework used: SwiftUI-Introspect
+- **Minimum iOS Deployment Target:** iOS 17.0  
+- **Recommended Xcode Version:** 16.3 or later  
+- **Device:** Best experienced on a physical device (for full feature support such as haptic feedback)  
+- **Third-Party Framework:** [`SwiftUI-Introspect`](https://github.com/siteline/SwiftUI-Introspect)
 
 ## Features
 
-1. Auto font resizing and scrollable text editor
-2. Text editor is expandable
-3. Dim and scale down background on expansion (like iOS default sheet effect)
-4. Send button with glowing effect when enabled
-5. Drag to dismiss keyboard gesture
-6. Interactively drag to dismiss keyboard with ScrollView
-7. Semi-expanded photo picker view when photo button is tapped
-8. Drag up to expand photo picker view gesture
-9. Drag down to shrink photo picker view gesture
-10. Thumbnail preview for selected photos
-11. Fine tuned animation for every actions
-12. Modularized using Swift Package
+- Dynamic font scaling with scrollable `TextEditor`  
+- Expandable `TextEditor` with animated background dimming and scaling (mimicking iOS sheet presentation)  
+- Send button highlights with a glow effect when active  
+- Keyboard dismissal via drag gesture  
+- Seamless interactive keyboard dismissal integrated with `ScrollView`  
+- Semi-expanded photo picker on tapping the photo icon  
+- Drag gestures for expanding and collapsing the photo picker  
+- Thumbnail previews for selected images  
+- Smooth, fine-tuned animations for all interactions and transitions  
+- Modular architecture implemented via Swift Package
 
 ## Accessibility
 
-1. Support Dark Mode
-2. Accessibility label and hint for UI controls
+- Full support for Dark Mode  
+- Accessibility labels and hints provided for all interactive UI elements
