@@ -19,7 +19,7 @@ struct ChatView: View {
     @State private var showTextChips: Bool = true
     @State private var bottomChatBoxViewModel = BottomChatBoxViewModel()
     @State private var offset: CGFloat = 0
-    
+
     private var chatBoxExpandHeight: CGFloat {
         UIScreen.main.bounds.height - abs(offset) - safeAreaInsets.top
     }
@@ -34,10 +34,7 @@ struct ChatView: View {
 
                 ScrollView {
                     VStack {
-                        Image(systemName: "globe")
-                            .imageScale(.large)
-                            .foregroundStyle(.tint)
-                        Text("Hello, world!")
+                        EmptyView()
                     }
                     .padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -54,7 +51,7 @@ struct ChatView: View {
         } overlay: {
             VStack {
                 Spacer()
-                
+
                 if showTextChips {
                     TextChipScrollView(textChips: textChips) {
                         print("Selected Chip:", $0)
