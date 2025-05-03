@@ -1,6 +1,6 @@
 # Design Engineer Assignment
 
-This is a technical assessment for the Design Engineer position at Hatch Innovation.
+This is a technical assessment for the Design Engineer position at Hatch Innovations.
 
 > ⚠️ **Note:** This project is not intended for production use. Exercise caution if adapting any part of it for production environments.
 
