@@ -27,6 +27,8 @@ struct ThumbnailView: View {
                     onDidTapDelete?()
                 }
                 .padding(1)
+                .accessibilityLabel("Delete Button")
+                .accessibilityHint("Tap to delect this photo")
         }
     }
 }
