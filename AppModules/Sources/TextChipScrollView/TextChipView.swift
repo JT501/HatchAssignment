@@ -3,6 +3,7 @@
 
 import SwiftUI
 import AppModels
+import AppColors
 
 public struct TextChipView: View {
     @State public var chip: TextChip
@@ -23,7 +24,7 @@ public struct TextChipView: View {
         .font(.system(size: 14))
         .padding(.vertical, 12)
         .padding(.horizontal)
-        .background(.white)
+        .background(.overlay)
         .clipShape(Capsule())
     }
 }
