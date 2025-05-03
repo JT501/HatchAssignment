@@ -15,11 +15,14 @@ struct TopBar: View {
                         .tint(.primaryColor)
                         .padding(.horizontal)
                 }
+                .accessibilityLabel("Close Button")
+                .accessibilityHint("Close the current chat")
 
             Spacer()
 
             Text("Some Text")
                 .bold()
+                .accessibilityLabel("Chat Title")
 
             Spacer()
 
@@ -31,6 +34,9 @@ struct TopBar: View {
                         .padding(.horizontal)
                 }
                 .hidden()
+                .accessibilityHidden(true)
+                
         }
+        .padding(.vertical, 4)
     }
 }
