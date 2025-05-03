@@ -4,13 +4,17 @@
 import SwiftUI
 
 struct SheetBackgroundEffect: ViewModifier {
+    @Environment(\.colorScheme) var colorScheme
+
     var trigger: Bool
 
     func body(content: Content) -> some View {
         content
+            .overlay {
+                Color.gray.opacity(trigger ? 0.25 : 0)
+            }
             .clipShape(RoundedRectangle(cornerRadius: trigger ? 15 : 0))
             .scaleEffect(trigger ? 0.9 : 1)
-            .brightness(trigger ? -0.2 : 0)
             .animation(.bouncy, value: trigger)
     }
 }
