@@ -26,5 +26,7 @@ public struct TextChipView: View {
         .padding(.horizontal)
         .background(.overlay)
         .clipShape(Capsule())
+        .accessibilityAddTraits(.isButton)
+        .accessibilityElement(children: .combine)
     }
 }
