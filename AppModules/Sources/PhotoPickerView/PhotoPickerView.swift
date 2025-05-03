@@ -2,6 +2,7 @@
 // Using Swift 6.0
 
 import AppHelpers
+import AppColors
 import AppModels
 import SwiftUI
 import SwiftUIIntrospect
@@ -11,7 +12,7 @@ public struct PhotoPickerView: View {
     @Environment(\.safeAreaInsets) private var safeAreaInsets
 
     public static var shrinkHeight: CGFloat = UIScreen.main.bounds.height * 0.4
-    public static var dragThreshold: CGFloat = 200
+    public static var dragThreshold: CGFloat = UIScreen.main.bounds.height * 0.35
 
     private var tabs: [String] = [
         "Photos",
@@ -134,6 +135,8 @@ public struct PhotoPickerView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(showNavigationBar ? .visible : .hidden, for: .navigationBar)
+            .background(.overlay2)
+            .toolbarBackground(.overlay2, for: .navigationBar)
         }
         .clipShape(
             UnevenRoundedRectangle(
