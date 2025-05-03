@@ -28,6 +28,7 @@ struct GlowingShadow<S: Shape>: ViewModifier {
     let shape: S
     let height: CGFloat, width: CGFloat
     let colors: [Color]
+    let radius: CGFloat
     var isActive: Bool
 
     init(
@@ -35,6 +36,7 @@ struct GlowingShadow<S: Shape>: ViewModifier {
         height: CGFloat = 35,
         width: CGFloat = 35,
         colors: [Color] = [.blue, .yellow],
+        radius: CGFloat = 5,
         isActive: Bool
     ) {
         precondition(
@@ -46,6 +48,7 @@ struct GlowingShadow<S: Shape>: ViewModifier {
         self.height = height
         self.width = width
         self.colors = colors
+        self.radius = radius
         self.isActive = isActive
     }
 
@@ -57,14 +60,18 @@ struct GlowingShadow<S: Shape>: ViewModifier {
             shape
                 .fill(
                     AngularGradient(
-                        colors: colors + [colors.first!],
+                        colors: colors + colors + [colors.first!],
                         center: .center,
                         angle: .degrees(rotating ? 360 : 0)
                     )
                 )
+                .animation(
+                    .linear(duration: 7).repeatForever(autoreverses: true),
+                    value: rotating
+                )
                 .frame(width: width, height: height)
-                .scaleEffect(breathing ? 1.15 : 1.05)
-                .blur(radius: breathing ? 10 : 5)
+                .scaleEffect(breathing ? 1.10 : 1)
+                .blur(radius: radius)
                 .opacity(isActive ? 1 : 0)
 
             content
@@ -72,11 +79,9 @@ struct GlowingShadow<S: Shape>: ViewModifier {
         }
         .onChange(of: isActive) { old, new in
             guard new != old else { return }
-
-            withAnimation(.linear(duration: 7).repeatForever(autoreverses: false)) {
-                rotating = new
-            }
-            withAnimation(.easeInOut(duration: 3.5).repeatForever()) {
+            rotating = new
+            
+            withAnimation(.easeInOut(duration: 2).repeatForever()) {
                 breathing = new
             }
         }
