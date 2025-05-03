@@ -47,6 +47,7 @@ public struct PhotoScrollView: View {
                             .onTapGesture { _ in
                                 onSelected?(photo)
                             }
+                            .accessibilityLabel("Photo \(photo.color.description)")
                     }
                 }
                 .padding(.horizontal, 2)

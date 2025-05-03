@@ -116,6 +116,8 @@ public struct PhotoPickerView: View {
                         shrinkView()
                     }
                     .allowsHitTesting(!isResizing)
+                    .accessibilityLabel("Cancel Button")
+                    .accessibilityHint("Tap to cancel")
                 }
 
                 ToolbarItem(placement: .principal) {
