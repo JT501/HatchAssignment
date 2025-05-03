@@ -15,17 +15,18 @@ struct ThumbnailView: View {
 
             Image(systemName: "x.circle.fill")
                 .resizable()
-                .font(.system(size: 16))
-                .frame(width: 16, height: 16)
+                .font(.system(size: 15))
+                .frame(width: 15, height: 15)
                 .background(.black, in: .circle)
                 .foregroundStyle(.white)
                 .scaledToFit()
-                .shadow(radius: 1)
+                .shadow(radius: 0.4)
                 .alignmentGuide(.top, computeValue: { $0.height / 2 })
                 .alignmentGuide(.trailing, computeValue: { $0.width / 2 })
                 .onTapGesture {
                     onDidTapDelete?()
                 }
+                .padding(1)
         }
     }
 }
