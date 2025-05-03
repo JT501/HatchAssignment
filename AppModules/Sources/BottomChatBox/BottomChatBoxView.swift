@@ -64,6 +64,8 @@ public struct BottomChatBoxView: View {
                                 viewModel.onTextInputDidTap()
                             }
                         }
+                        .accessibilityLabel("Text Input")
+                        .accessibilityHint("Start typing your text here")
 
                         ResizeButton(isExpanded: viewModel.expandTextInput) {
                             viewModel.onDidTapResizeButton()
@@ -78,6 +80,14 @@ public struct BottomChatBoxView: View {
                         .sensoryFeedback(
                             .impact,
                             trigger: viewModel.expandTextInput
+                        )
+                        .accessibilityLabel(
+                            viewModel.expandTextInput ?
+                                "Collapse" : "Expand"
+                        )
+                        .accessibilityHint(
+                            viewModel.expandTextInput ?
+                                "Collapse the text input" : "Expand the text input"
                         )
                     }
                 }

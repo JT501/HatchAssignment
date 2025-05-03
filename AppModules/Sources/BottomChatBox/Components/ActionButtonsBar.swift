@@ -26,6 +26,8 @@ struct ActionButtonsBar: View {
                 t.disablesAnimations = true
             }
             .padding(.horizontal, 4)
+            .accessibilityLabel("Photo Button")
+            .accessibilityHint("Tap to pick a photo from your library")
 
             Spacer()
 
@@ -63,6 +65,8 @@ struct ActionButtonsBar: View {
                 ],
                 isActive: isSendButtonEnabled
             )
+            .accessibilityLabel("Send Button")
+            .accessibilityHint("Tap to send your message")
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 4)

@@ -36,10 +36,6 @@ struct AutoFontSizeTextEditor: View {
         }
     }
 
-    var heightFactor: CGFloat {
-        textViewHeight / textEditorHeight
-    }
-
     @Binding var text: String
     var placeHolder: String = "Start Typing..."
     @State var fontSize = FontSize.default
@@ -47,6 +43,15 @@ struct AutoFontSizeTextEditor: View {
     @State var textEditorHeight = CGFloat.zero
     @State var textViewHeight = CGFloat.zero
     @FocusState var isTextFieldFocused
+    
+    var heightFactor: CGFloat {
+        textViewHeight / textEditorHeight
+    }
+    
+    private var displayFontSize: CGFloat {
+        (overrideFontSize ? FontSize.default : fontSize).rawValue
+    }
+    
     private var showPlaceHolder: Bool {
         !isTextFieldFocused && text.isEmpty
     }
@@ -54,9 +59,20 @@ struct AutoFontSizeTextEditor: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             TextEditor(text: $text)
-                .font(.system(size: (overrideFontSize ? FontSize.default : fontSize).rawValue))
-                .padding(EdgeInsets(top: -7.8, leading: -4.8, bottom: 0, trailing: -5))
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                .font(.system(size: displayFontSize))
+                .padding(
+                    EdgeInsets(
+                        top: -7.8,
+                        leading: -4.8,
+                        bottom: 0,
+                        trailing: -5
+                    )
+                )
+                .frame(
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                    alignment: .topLeading
+                )
                 .focused($isTextFieldFocused)
                 .textInputAutocapitalization(.sentences)
                 .autocorrectionDisabled()
