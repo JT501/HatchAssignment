@@ -1,7 +1,7 @@
 // Created for HatchAssignment in 2025
 // Using Swift 6.0
 
-import AppConstants
+import AppColors
 import AppHelpers
 import AppModels
 import BottomChatBox
@@ -50,7 +50,7 @@ struct ChatView: View {
                     .frame(height: 0)
                     .frame(maxHeight: UIScreen.main.bounds.height, alignment: .bottom)
             }
-            .background(.bgLightGray)
+            .background(.backgroundPrimary)
         } overlay: {
             VStack {
                 Spacer()

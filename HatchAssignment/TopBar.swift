@@ -2,6 +2,7 @@
 // Using Swift 6.0
 
 import SwiftUI
+import AppColors
 
 struct TopBar: View {
     var body: some View {
@@ -11,7 +12,7 @@ struct TopBar: View {
                     Image(systemName: "xmark")
                         .imageScale(.medium)
                         .bold()
-                        .tint(.black)
+                        .tint(.primaryColor)
                         .padding(.horizontal)
                 }
 
