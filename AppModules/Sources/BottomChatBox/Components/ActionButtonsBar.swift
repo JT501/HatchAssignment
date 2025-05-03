@@ -1,10 +1,11 @@
 // Created for HatchAssignment in 2025
 // Using Swift 6.0
 
+import AppColors
 import SwiftUI
 
 struct ActionButtonsBar: View {
-    var isSendButtonEnabled: Bool = false
+    var isSendButtonEnabled: Bool = true
     var onDidTapImageButton: (() -> Void)?
     var onDidTapSendButton: (() -> Void)?
 
@@ -15,11 +16,16 @@ struct ActionButtonsBar: View {
             }
             label: {
                 Image(systemName: "photo.circle")
+                    .resizable()
                     .font(.system(size: 35))
+                    .scaledToFit()
+                    .frame(height: 35)
             }
+            .tint(.secondaryColor)
             .transaction { t in
                 t.disablesAnimations = true
             }
+            .padding(.horizontal, 4)
 
             Spacer()
 
@@ -28,15 +34,35 @@ struct ActionButtonsBar: View {
             }
             label: {
                 Image(systemName: "paperplane.circle.fill")
+                    .resizable()
                     .font(.system(size: 35))
-                    .padding(-3)
-                    .background(.white)
-                    .clipShape(.circle)
+                    .frame(height: 35)
+                    .scaledToFit()
+                    .background(
+                        isSendButtonEnabled ? .white : .clear,
+                        in: .circle
+                    )
+                    .overlay {
+                        isSendButtonEnabled ?
+                            Circle()
+                            .stroke(
+                                .secondaryColor.opacity(0.8),
+                                lineWidth: 1
+                            )
+                            : nil
+                    }
             }
-            .padding(3)
+            .padding(.horizontal, 4)
+            .tint(.secondaryColor)
             .disabled(!isSendButtonEnabled)
             .animation(.easeInOut, value: isSendButtonEnabled)
-            .glowingShadow(isActive: isSendButtonEnabled)
+            .glowingShadow(
+                colors: [
+                    .secondaryColor,
+                    .white,
+                ],
+                isActive: isSendButtonEnabled
+            )
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 4)
@@ -44,5 +70,7 @@ struct ActionButtonsBar: View {
 }
 
 #Preview {
-    ActionButtonsBar()
+    ActionButtonsBar(
+        isSendButtonEnabled: false
+    )
 }

@@ -9,8 +9,6 @@ import SwiftUI
 @MainActor
 @Observable
 public class BottomChatBoxViewModel {
-    let selectedImageScrollViewHeight: CGFloat = 60
-
     public enum Destination: Equatable {
         case inputText
         case inputTextFull

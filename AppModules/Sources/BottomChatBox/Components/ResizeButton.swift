@@ -2,6 +2,7 @@
 // Using Swift 6.0
 
 import SwiftUI
+import AppColors
 
 struct ResizeButton: View {
     var isExpanded: Bool = false
@@ -15,16 +16,15 @@ struct ResizeButton: View {
                 Image(systemName: "arrow.up.backward.and.arrow.down.forward")
                     .imageScale(.medium)
                     .padding(.horizontal, 8)
-                    .tint(.black)
                     .opacity(isExpanded ? 0 : 1)
 
                 Image(systemName: "arrow.down.forward.and.arrow.up.backward")
                     .imageScale(.medium)
                     .padding(.horizontal, 8)
-                    .tint(.black)
                     .opacity(isExpanded ? 1 : 0)
             }
         }
+        .tint(.primaryColor)
     }
 }
 

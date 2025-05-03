@@ -1,7 +1,7 @@
 // Created for HatchAssignment in 2025
 // Using Swift 6.0
 
-import AppConstants
+import AppColors
 import Observation
 import PhotoPickerView
 import SelectedImagesScrollView
@@ -110,7 +110,7 @@ public struct BottomChatBoxView: View {
             }
             .padding(.top, 20)
             .padding(.bottom, viewModel.bottomPadding)
-            .background(.white)
+            .background(.overlay)
             // Only top corners have radius
             .clipShape(.rect(topLeadingRadius: 15, topTrailingRadius: 15))
             .shadow(radius: 5, x: 0, y: 2)
@@ -174,7 +174,7 @@ public struct BottomChatBoxView: View {
 
 #Preview {
     ZStack {
-        Color.bgLightGray
+        Color.backgroundPrimary
             .ignoresSafeArea()
 
         BottomChatBoxView(
