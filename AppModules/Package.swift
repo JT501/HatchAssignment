@@ -15,7 +15,12 @@ let targets: [Target] = [
             .bottomChatBox,
         ]
     ),
-    .target(name: "AppConstants"),
+    .target(
+        name: "AppColors",
+        resources: [
+            .process("Resources")
+        ]
+    ),
     .target(name: "AppHelpers"),
     .target(
         name: "AppModels",
@@ -23,7 +28,10 @@ let targets: [Target] = [
     ),
     .target(
         name: "TextChipScrollView",
-        dependencies: [.appModels]
+        dependencies: [
+            .appColors,
+            .appModels
+        ]
     ),
     .target(
         name: "SheetLikeEffectView",
@@ -41,7 +49,7 @@ let targets: [Target] = [
         name: "SelectedImagesScrollView",
         dependencies: [
             .appModels,
-            .appHelpers
+            .appHelpers,
         ]
     ),
     .target(name: "KeyboardAttachedView"),
@@ -49,7 +57,7 @@ let targets: [Target] = [
         name: "BottomChatBox",
         dependencies: [
             .appModels,
-            .appConstants,
+            .appColors,
             .photoPickerView,
             .selectedImagesScrollView,
         ]
@@ -61,7 +69,7 @@ let package = Package(
     platforms: [.iOS(.v17)],
     products: [
         .library("AppModules"),
-        .library("AppConstants"),
+        .library("AppColors"),
         .library("AppHelpers"),
         .library("AppModels"),
         .library("TextChipScrollView"),
@@ -80,7 +88,7 @@ let package = Package(
 extension Target.Dependency {
     // MARK: App Modules
 
-    static var appConstants: Self { .target(name: "AppConstants") }
+    static var appColors: Self { .target(name: "AppColors") }
     static var appHelpers: Self { .target(name: "AppHelpers") }
     static var appModels: Self { .target(name: "AppModels") }
     static var textChipScrollView: Self { .target(name: "TextChipScrollView") }
