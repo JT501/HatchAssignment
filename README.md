@@ -4,6 +4,9 @@ This is an interview assignment for Hatch Innovation.
 
 **Caution**: This project is not Production-proof, please consider the risk to use it in production code.
 
+![Light](Screenshots/Light.png)
+![Dark](Screenshots/Dark.png)
+
 ## Notes
 
 1. Min. Deployments: iOS 17.0
