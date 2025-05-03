@@ -107,6 +107,7 @@ public struct BottomChatBoxView: View {
                     }
                 )
                 .padding(.horizontal)
+                .padding(.top, 8)
             }
             .padding(.top, 20)
             .padding(.bottom, viewModel.bottomPadding)
